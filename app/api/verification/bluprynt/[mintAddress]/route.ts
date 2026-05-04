@@ -34,12 +34,14 @@ async function getSchemaVersionPdas(credentialAddress: Address, schemaName: stri
 }
 
 type Params = {
-    params: {
+    params: Promise<{
         mintAddress: string;
-    };
+    }>;
 };
 
-export async function GET(_request: Request, { params: { mintAddress } }: Params) {
+export async function GET(_request: Request, props: Params) {
+    const { mintAddress } = await props.params;
+
     try {
         new PublicKey(mintAddress);
     } catch {
